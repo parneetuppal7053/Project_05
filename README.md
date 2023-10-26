@@ -9,7 +9,7 @@ complete, the functions are integrated into a single application.
 ACE Faculty
 
 ## Revised by
-{Student Name}
+Parneet 
 
 # Reflection:
 ## 1. Identify any challenges or issues you encountered while writing your functions.
