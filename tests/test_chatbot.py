@@ -6,7 +6,7 @@ Usage:this code will run tests simulating various situations the chatbot should 
 """
 import unittest
 from unittest.mock import patch
-from ..src.chatbot import get_account,VALID_TASKS, ACCOUNTS,get_account, get_amount, get_balance,make_deposit
+from ..src.chatbot import get_account,VALID_TASKS, ACCOUNTS,get_account, get_amount, get_balance,make_deposit, user_selection
 
 class ChatbotTests(unittest.TestCase):
     #TEST 01 
@@ -142,3 +142,31 @@ class ChatbotTests(unittest.TestCase):
             make_deposit(account_number, deposit_amount)
         # Assert
         self.assertEqual(str(context.exception), "Invalid Amount. Amount must be positive.")
+    
+    #TEST 13
+    def test_user_selection_valid_lowercase(self):
+        #act
+        with patch("builtins.input") as mock_input:
+            mock_input.side_effect=["balance"]
+            result = user_selection()
+        #assert
+            self.assertEqual(result, "balance")
+    
+    #TEST 14
+    def test_user_selection_valid_mixed_case(self):
+        #act
+        with patch("builtins.input") as mock_input:
+            mock_input.side_effect=["DEPOSIT"]
+            result = user_selection()
+        #assert
+            self.assertEqual(result, "deposit")
+    
+    #TEST 15
+    def test_user_selection_invalid(self):
+        #act
+        with patch("builtins.input") as mock_input:
+            mock_input.side_effect=["invalid_selection"]
+            with self.assertRaises(ValueError) as context:
+                user_selection()
+        #assert
+            self.assertEqual(str(context.exception), "Invalid task. Please choose balance, deposit, or exit.")
