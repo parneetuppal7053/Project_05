@@ -69,10 +69,30 @@ class ChatbotTests(unittest.TestCase):
     
     #TEST 06 
     def test_get_zero_or_negative(self):
-        # Act
+        #act
         with patch("builtins.input") as mock_input:
             mock_input.side_effect = ["0"]
             with self.assertRaises(ValueError) as context:
                 get_amount()
-            # Assert
-            self.assertEqual(str(context.exception), "Invalid amount. Please enter a positive number.")   
+        #assert
+            self.assertEqual(str(context.exception), "Invalid amount. Please enter a positive number.") 
+   
+    #TEST 07
+    def test_valid_account_get_balance(self):
+        #act
+        with patch("builtins.input")as mock_input:
+            mock_input.side_effect = ["123456"]
+            balance_data = get_balance(int(input("Enter account number: ")))
+            expected_message = 'Your current balance for account 123456 is $1000.00.'
+        #assert
+            self.assertEqual(balance_data, expected_message)
+    
+    #TEST 08
+    def test_account_not_in_accounts_get_balance(self):
+        #act
+        with patch("builtins.input") as mock_input:
+            mock_input.side_effect=["112233"]
+            with self.assertRaises(Exception) as context:
+                get_balance(int(input("Enter account number: ")))
+        #assert
+        self.assertEqual(str(context.exception), "Account number does not exist.")
