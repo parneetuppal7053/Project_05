@@ -16,8 +16,18 @@ ACCOUNTS = {
 # VALID_TASKS = {"balance", "deposit", "exit"}
 
 ## CODE REQUIRED FUNCTIONS STARTING HERE:
+""" This function captures the user input for their account number 
+
+    Raises:
+        ValueError: if the input is not a number or a whole number 
+        Exception: if the input is anything other than number 
+
+    Returns:
+        int: the account
+    """
 def get_account():
- while True:
+    
+  while True:
     try: 
         account_number = int ((input("Please enter your account number: ")))
         if account_number %1 !=0:
@@ -31,8 +41,16 @@ def get_account():
     except Exception as error:
         print(error)        
 
-
+    
 def get_amount() -> float:
+    """ this function inputs the user for amount of deposit if that is the selection
+
+    Raises:
+        ValueError: if the amount entered is invalid 
+
+    Returns:
+        float: the amount of input value by the user 
+    """
     while True:
         try:
             # Prompt the user for input
@@ -50,6 +68,17 @@ def get_amount() -> float:
 
 
 def get_balance(account: int) -> str:
+    """this links the balance of a certain account number with the given ones in the dictionary 
+
+    Args:
+        account (int): 
+
+    Raises:
+        Exception: if the account number entered is not in the ACCOUNTS DICTIONARY 
+
+    Returns:
+        str: a string with the user account number and balance is returned 
+    """
     if account not in ACCOUNTS:
         raise Exception("Account number does not exist.")
     balance = ACCOUNTS[account]["balance"]
