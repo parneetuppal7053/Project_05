@@ -9,11 +9,10 @@ from unittest.mock import patch
 from ..src.chatbot import get_account,VALID_TASKS, ACCOUNTS,get_account, get_amount, get_balance,make_deposit, user_selection
 
 class ChatbotTests(unittest.TestCase):
+    ## FOR THE get_account FUNCTION ##
+    
     #TEST 01 
     def test_valid_account(self):
-        """tests the user input by mocking it from the builtin patch files 
-            getting the account number input from the user 
-        """
         #ACT
         with patch("builtins.input")as mock_input: 
             mock_input.side_effect = ["123456"]
@@ -23,9 +22,6 @@ class ChatbotTests(unittest.TestCase):
             
     #TEST 02 
     def test_non_numeric_input(self):
-        """ tests the chatbot program for any non numeric input the user puts 
-            return an error message in the form of a string  
-        """
         #ACT
         with patch("builtins.input") as mock_input:
             mock_input.side_effect= ["non_numeric_data"]
@@ -36,10 +32,6 @@ class ChatbotTests(unittest.TestCase):
     
     #TEST 03
     def test_account_not_in_accounts(self):
-        """ tests the chatbot program for input and checks the accounts dictionary 
-            if account does not exists it raises an exception  
-            return an error message in the form of a string  
-        """
         #ACT
         with patch("builtins.input") as mock_input: 
             mock_input.side_effect["112233"]
@@ -47,6 +39,8 @@ class ChatbotTests(unittest.TestCase):
                 get_account()
         #ASSERT
             self.assertEqual(str(context.exception), "Account number entered does not exist.")
+    
+    ## FOR THE GET_amount FUNCTION ##
             
     #TEST 04
     def test_get_amount_valid_amount(self):
@@ -77,6 +71,8 @@ class ChatbotTests(unittest.TestCase):
         #assert
             self.assertEqual(str(context.exception), "Invalid amount. Please enter a positive number.") 
    
+    ## FOR THE get_balance FUNCTION ##
+    
     #TEST 07
     def test_valid_account_get_balance(self):
         #act
@@ -96,6 +92,8 @@ class ChatbotTests(unittest.TestCase):
                 get_balance(int(input("Enter account number: ")))
         #assert
         self.assertEqual(str(context.exception), "Account number does not exist.")
+    
+    ## FOR THE make_deposit FUNCTION ##
     
     #TEST 09    
     def test_updated_balance_make_deposit(self):
@@ -143,6 +141,8 @@ class ChatbotTests(unittest.TestCase):
         # Assert
         self.assertEqual(str(context.exception), "Invalid Amount. Amount must be positive.")
     
+    ## FOR THE user_selection FUNCTION ##
+    
     #TEST 13
     def test_user_selection_valid_lowercase(self):
         #act
@@ -170,3 +170,5 @@ class ChatbotTests(unittest.TestCase):
                 user_selection()
         #assert
             self.assertEqual(str(context.exception), "Invalid task. Please choose balance, deposit, or exit.")
+            
+############################   END OF TESTS  ############################ 
