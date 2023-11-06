@@ -6,7 +6,7 @@ Usage:this code will run tests simulating various situations the chatbot should 
 """
 import unittest
 from unittest.mock import patch
-from src.chatbot import get_account,VALID_TASKS, ACCOUNTS
+from ..src.chatbot import get_account,VALID_TASKS, ACCOUNTS,get_account, get_amount
 
 class ChatbotTests(unittest.TestCase):
     #TEST 01 
@@ -47,7 +47,14 @@ class ChatbotTests(unittest.TestCase):
                 get_account()
         #ASSERT
             self.assertEqual(str(context.exception), "Account number entered does not exist.")
+            
+    #TEST 04
+    def test_get_amount_valid_amount(self):
+        # Act
+        with patch("builtins.input", side_effect=["500.01"]):
+            result = get_amount()
+            # Assert
+            self.assertEqual(result, 500.01)
 
-    
       
          
