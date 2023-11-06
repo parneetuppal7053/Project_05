@@ -6,7 +6,7 @@ Usage:this code will run tests simulating various situations the chatbot should 
 """
 import unittest
 from unittest.mock import patch
-from ..src.chatbot import get_account,VALID_TASKS, ACCOUNTS,get_account, get_amount
+from ..src.chatbot import get_account,VALID_TASKS, ACCOUNTS,get_account, get_amount, get_balance
 
 class ChatbotTests(unittest.TestCase):
     #TEST 01 
@@ -50,11 +50,29 @@ class ChatbotTests(unittest.TestCase):
             
     #TEST 04
     def test_get_amount_valid_amount(self):
-        # Act
-        with patch("builtins.input", side_effect=["500.01"]):
+        #act
+        with patch("builtins.input")as mock_input:
+            mock_input.side_effect= ["500.01"]
             result = get_amount()
-            # Assert
+        #assert
             self.assertEqual(result, 500.01)
-
-      
-         
+    
+    #TEST 05
+    def test_get_non_numeric_input(self):
+        #act
+        with patch("builtins.input")as mock_input:
+            mock_input.side_effect= ["non_numeric_data"]
+            with self.assertRaises(ValueError) as context:
+                get_amount()
+        #assert
+            self.assertEqual(str(context.exception), "Invalid amount. Amount must be numeric.")  
+    
+    #TEST 06 
+    def test_get_zero_or_negative(self):
+        # Act
+        with patch("builtins.input") as mock_input:
+            mock_input.side_effect = ["0"]
+            with self.assertRaises(ValueError) as context:
+                get_amount()
+            # Assert
+            self.assertEqual(str(context.exception), "Invalid amount. Please enter a positive number.")   
